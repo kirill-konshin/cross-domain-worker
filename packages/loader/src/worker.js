@@ -3,10 +3,10 @@ function joinSegments(a, b) {
 }
 
 function replaceOrigin(blob, base) {
-    const path = new URL(blob.replace('blob:', ''));
-    const search = path.searchParams.toString();
+    const url = new URL(blob.replace('blob:', ''));
+    const search = url.searchParams.toString();
     const baseUrl = new URL(base);
-    return new URL(joinSegments(baseUrl.pathname, path.pathname) + (search ? '?' + search : ''), baseUrl.origin).toString();
+    return new URL(joinSegments(baseUrl.pathname, url.pathname) + (search ? '?' + search : ''), baseUrl.origin).toString();
 }
 
 self.onmessage = ({data: {msg, payload}}) => {
