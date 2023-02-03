@@ -19,6 +19,6 @@ self.onmessage = ({data: {msg, payload}}) => {
 
         const imageProper = replaceOrigin(image, payload);
         console.log(imageProper);
-        fetch(imageProper).then(r => console.log(r));
+        fetch(imageProper).then(r => r.blob()).then(b => console.log(b));
     }
 };
