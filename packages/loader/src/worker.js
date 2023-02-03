@@ -4,8 +4,9 @@ function joinSegments(a, b) {
 
 function replaceOrigin(blob, base) {
     const path = new URL(blob.replace('blob:', ''));
+    const search = path.searchParams.toString();
     const baseUrl = new URL(base);
-    return new URL(joinSegments(baseUrl.pathname, path.pathname), baseUrl.origin).toString();
+    return new URL(joinSegments(baseUrl.pathname, path.pathname) + (search ? '?' + search : ''), baseUrl.origin).toString();
 }
 
 self.onmessage = ({data: {msg, payload}}) => {
