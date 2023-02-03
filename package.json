@@ -1,0 +1,17 @@
+{
+  "name": "webpack-worker-loader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "turbo run start"
+  },
+  "author": "Kirill Konshin <kirill.konshin@gmail.com> (https://konshin.org)",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "turbo": "^1.7.3"
+  }
+}

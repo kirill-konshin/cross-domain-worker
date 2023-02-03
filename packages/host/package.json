@@ -1,0 +1,15 @@
+{
+  "name": "host",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "serve -l 3000 src"
+  },
+  "author": "Kirill Konshin <kirill.konshin@gmail.com> (https://konshin.org)",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}
