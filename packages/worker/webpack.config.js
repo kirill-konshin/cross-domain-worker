@@ -1,10 +1,13 @@
 const path = require("path");
+
 module.exports = {
-    entry: './src/index',
+    entry: './src/worker',
     mode: 'development',
+    devtool: 'inline-source-map',
     devServer: {
+        allowedHosts: 'all',
         port: 4000,
-        headers: ({ rawHeaders }) => {
+        headers: ({rawHeaders}) => {
             const originKeyOffset = rawHeaders.indexOf('Origin');
             if (originKeyOffset === -1) {
                 return;
@@ -20,12 +23,18 @@ module.exports = {
         proxy: {
             '/test': {
                 target: 'http://localhost:4000',
-                pathRewrite: { '^/test': '' },
+                pathRewrite: {'^/test': ''},
                 secure: false,
+                onProxyReq: function(proxyReq) {
+                    proxyReq.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+                    proxyReq.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+                    proxyReq.setHeader('Access-Control-Allow-Credentials', 'true');
+                    proxyReq.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+                }
             },
         },
     },
-    target: 'web',
+    target: 'webworker',
     cache: {
         type: 'filesystem',
         allowCollectingMemory: true,
@@ -38,9 +47,14 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(png)$/,
-                type: 'asset/resource',
+                test: /\.(png|jpg|gif)$/i,
+                type: 'asset/inline',
             },
         ],
     },
+    externals: {
+        // events: 'commonjs events',
+        // 'html-entities': 'commonjs html-entities',
+        // 'ansi-html-community': 'commonjs ansi-html-community'
+    }
 };

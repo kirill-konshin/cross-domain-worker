@@ -7,15 +7,8 @@ module.exports = {
     devServer: {
         port: 3000,
         headers: ({rawHeaders}) => ({
-                "Content-Security-Policy": "worker-src http://localhost:* blob:"
-        }),
-        proxy: {
-            '/test': {
-                target: 'http://localhost:3000',
-                pathRewrite: {'^/test': ''},
-                secure: false,
-            },
-        },
+                "Content-Security-Policy": "worker-src http://localhost:* blob:" //FIXME Has no effect!
+        })
     },
     target: 'web',
     cache: {
