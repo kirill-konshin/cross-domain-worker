@@ -3,6 +3,7 @@ const myWorker = function createWorker(workerUrl) {
     return new Worker(URL.createObjectURL(blob));
 };
 
+// const worker = new Worker("http://localhost:4000/test/main.js")
 const worker = myWorker("http://localhost:4000/test/main.js")
 
 worker.onmessage = ({data: {msg, ...data}}) => {
