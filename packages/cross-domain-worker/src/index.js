@@ -1,9 +1,15 @@
 // With CORS
-// function createWorkerAsync(workerUrl) {
+// function getWorkerAsync(workerUrl, options) {
 //     return fetch(workerUrl)
 //         .then(res => res.blob())
-//         .then(blob => new Worker(URL.createObjectURL(blob)));
+//         .then(blob => new Worker(URL.createObjectURL(blob)), options);
 // }
+
+// No CORS
+function getWorker(workerUrl, options) {
+    const blob = new Blob([`importScripts('${workerUrl}')`], {'type': 'application/javascript'});
+    return  new Worker(URL.createObjectURL(blob), options);
+}
 
 const PATH = 'SET_PATH';
 const ERROR = 'ERROR';
@@ -23,9 +29,7 @@ exports.createWorker = function createWorker(workerUrl, options) {
 
         const base = basePath(workerUrl);
 
-        const blob = new Blob([`importScripts('${workerUrl}')`], {'type': 'application/javascript'}); // sync approach
-
-        const worker = new Worker(URL.createObjectURL(blob), options);
+        const worker = getWorker(workerUrl, options);
 
         worker.onmessage = function onWorkerReceivedMessage(ev) {
             switch (ev.data.type) {
