@@ -1,11 +1,21 @@
-// With CORS
-// function getWorkerAsync(workerUrl, options) {
-//     return fetch(workerUrl)
-//         .then(res => res.blob())
-//         .then(blob => new Worker(URL.createObjectURL(blob)), options);
-// }
+/**
+ * With CORS
+ * @param {string} workerUrl
+ * @param {WorkerOptions} [options]
+ * @returns {Worker}
+ */
+function getWorkerAsync(workerUrl, options) {
+    return fetch(workerUrl)
+        .then(res => res.blob())
+        .then(blob => new Worker(URL.createObjectURL(blob), options));
+}
 
-// No CORS
+/**
+ * No CORS
+ * @param {string} workerUrl
+ * @param {WorkerOptions} [options]
+ * @returns {Worker}
+ */
 function getWorker(workerUrl, options) {
     const blob = new Blob([`importScripts('${workerUrl}')`], {'type': 'application/javascript'});
     return  new Worker(URL.createObjectURL(blob), options);
