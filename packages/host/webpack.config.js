@@ -7,7 +7,7 @@ module.exports = {
     devServer: {
         port: 3000,
         headers: ({rawHeaders}) => ({
-                "Content-Security-Policy": "worker-src http://localhost:* blob:" //FIXME Has no effect!
+            "Content-Security-Policy": "worker-src http://localhost:* blob:" //FIXME Has no effect!
         })
     },
     target: 'web',

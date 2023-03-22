@@ -1,0 +1,9 @@
+{
+  "name": "cross-domain-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "private": true,
+  "author": "Kirill Konshin <kirill.konshin@gmail.com> (https://konshin.org)",
+  "license": "MIT"
+}

@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
     entry: './src/worker',
     mode: 'development',
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     devServer: {
         allowedHosts: 'all',
         port: 4000,
@@ -24,13 +24,6 @@ module.exports = {
             '/test': {
                 target: 'http://localhost:4000',
                 pathRewrite: {'^/test': ''},
-                secure: false,
-                onProxyReq: function(proxyReq) {
-                    proxyReq.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-                    proxyReq.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-                    proxyReq.setHeader('Access-Control-Allow-Credentials', 'true');
-                    proxyReq.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                }
             },
         },
     },

@@ -1,25 +1,33 @@
-const myWorker = function createWorker(workerUrl) {
-    const blob = new Blob([`importScripts('${workerUrl}');`], {'type': 'application/javascript'});
-    return new Worker(URL.createObjectURL(blob));
-};
+import {createWorker} from 'cross-domain-worker';
 
-// const worker = new Worker("http://localhost:4000/test/main.js")
-const worker = myWorker("http://localhost:4000/test/main.js")
+(async () => {
 
-worker.onmessage = ({data: {msg, ...data}}) => {
-    if (msg === 'response') {
-        console.log('<<< Response', data);
-        const img = document.createElement('img');
+    //FIXME Uncaught (in promise) DOMException: Failed to construct 'Worker': Script at 'http://localhost:4000/test/main.js' cannot be accessed from origin 'http://localhost:3000'.
+    // const worker = new Worker("http://localhost:4000/test/main.js");
 
-        const objectURL = URL.createObjectURL(data.blob)
+    const worker = await createWorker("http://localhost:4000/test/main.js");
 
-        // Once the image is loaded, we'll want to do some extra cleanup
-        img.onload = () => URL.revokeObjectURL(objectURL);
+    console.log('Worker initialized');
 
-        img.setAttribute('src', objectURL)
+    // const worker = new Worker(new URL("./worker.js", import.meta.url));
 
-        document.body.appendChild(img);
-    }
-};
+    worker.onmessage = async ({data: {type, ...data}}) => {
+        if (type === 'response') {
+            console.log('<<< Response', data);
 
-worker.postMessage({msg: 'request'});
+            const img = document.createElement('img');
+
+            const objectURL = URL.createObjectURL(data.blob)
+
+            // Once the image is loaded, we'll want to do some extra cleanup
+            img.onload = () => URL.revokeObjectURL(objectURL);
+
+            img.setAttribute('src', objectURL);
+
+            document.body.appendChild(img);
+        }
+    };
+
+    worker.postMessage({type: 'request'});
+
+})();

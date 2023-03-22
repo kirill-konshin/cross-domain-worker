@@ -1,18 +1,17 @@
-import image from './package.png';
+import {setPath} from 'cross-domain-worker';
 import {base64toBlob} from "./base64toBlob";
 
-self.onmessage = async ({data: {msg}}) => {
-    if (msg === 'request') {
+self.onmessage = async (ev) => {
+    if (setPath(ev)) return;
 
-        //FIXME Uncaught (in promise) DOMException: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'blob:http://localhost:3000/src_package_png.js' failed to load.
-        // const {default: image} = await import('./package.png');
+    const {data: {type}} = ev;
 
-        console.log('>>> Request', image);
+    if (type === 'request') {
+        console.log('>>> Request', ev);
 
-        // const blob = new Blob([image], {type: 'image/png'}); // assumes asset/source
-        const blob = await base64toBlob(image); // assumes asset/inline
+        const blob = await base64toBlob((await import('./package.png')).default);
 
-        self.postMessage({msg: 'response', blob});
+        self.postMessage({type: 'response', blob});
 
     }
 };
