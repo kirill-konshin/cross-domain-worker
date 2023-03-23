@@ -1,8 +1,11 @@
 {
   "name": "cross-domain-worker",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "src/index.js",
   "author": "Kirill Konshin <kirill.konshin@gmail.com> (https://konshin.org)",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "cp ../../README.md ."
+  }
 }

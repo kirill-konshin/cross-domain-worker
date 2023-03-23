@@ -41,7 +41,7 @@ module.exports = {
         rules: [
             {
                 test: /\.(png|jpg|gif)$/i,
-                type: 'asset/inline',
+                type: 'asset/resource',
             },
         ],
     },

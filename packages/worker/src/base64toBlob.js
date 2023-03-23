@@ -1,1 +1,0 @@
-export const base64toBlob = (url) => fetch(url).then(res => res.blob());

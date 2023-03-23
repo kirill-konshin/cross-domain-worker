@@ -1,5 +1,4 @@
 import {setPath} from 'cross-domain-worker';
-import {base64toBlob} from "./base64toBlob";
 
 self.onmessage = async (ev) => {
     if (setPath(ev)) return;
@@ -9,7 +8,9 @@ self.onmessage = async (ev) => {
     if (type === 'request') {
         console.log('>>> Request', ev);
 
-        const blob = await base64toBlob((await import('./package.png')).default);
+        const {default: image} = await import('./package.png');
+        const res = await fetch(image);
+        const blob = await res.blob();
 
         self.postMessage({type: 'response', blob});
 
